@@ -1,0 +1,57 @@
+.color-red{
+    border: 1px solid red !important;
+    color: red !important;
+    padding-left: 10px !important;
+    font-size: 12px;
+}
+#bloc-add-sal-1{
+    width: 50%;
+    margin-right: 1%;
+    float: left;
+    overflow: hidden;
+}
+#bloc-add-sal-1 .form-group{
+    width: 49%;
+    float: left;
+    height: 70px;
+    margin-bottom: 5px;
+}
+#bloc-add-sal-1 .form-group:nth-child(odd){
+    margin-right: 2%;
+}
+#bloc-add-sal-1 .form-group:nth-child(even){
+    margin-right: 0%;
+}
+#bloc-add-sal-2{
+    width: 49%;
+    float: left;
+    overflow: hidden;
+}
+#bloc-add-sal-2 .form-group{
+    width: 49%;
+    float: left;
+    height: 70px;
+    margin-bottom: 5px;
+}
+#bloc-add-sal-2 .form-group:nth-child(odd){
+    margin-right: 2%;
+}
+#bloc-add-sal-2 .form-group:nth-child(even){
+    margin-right: 0%;
+}
+.all-screen{
+    width: 90% !important;
+}
+@media screen and (max-width: 640px) {
+    #bloc-add-sal-1{
+        width: 100%;
+        margin-right: 0%;
+        float: none;
+        overflow: hidden;
+    }
+    #bloc-add-sal-2{
+        width: 100%;
+        float: none;
+        overflow: hidden;
+    }
+}
