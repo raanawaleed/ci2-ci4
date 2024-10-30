@@ -24,7 +24,7 @@ class VCompaniesController extends BaseController
 
     }
 
-    public function create(): void
+     function create(): void
     {
         if ($this->request->getMethod() === 'post') {
             $data = [
