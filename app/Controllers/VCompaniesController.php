@@ -114,7 +114,7 @@ class VCompaniesController extends BaseController
         }
     }
 
-    public function edit(int $id): void
+     function edit(int $id): void
     {
         if ($this->request->getMethod() === 'post') {
             $data = [
@@ -134,7 +134,7 @@ class VCompaniesController extends BaseController
         }
     }
 
-    public function delete(int $id): void
+     function delete(int $id): void
     {
         if ($this->request->getMethod() === 'post') {
             if ($this->user->validate_password(service('request')->getPost('password'))) {

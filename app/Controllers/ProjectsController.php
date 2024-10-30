@@ -632,6 +632,7 @@ class ProjectsController extends BaseController
 
 	function statistique()
 	{
+		$id = '';
 		$item = $this->db->select('*')->from('salaries')->where('id', $id)->get()->result();
 		$data["logo"] = $this->db->select('*')->from('setting_document_rh')->get()->result();
 		$data["pic"] = $this->db->select('*')->from('v_companies')->where('id', $_SESSION['current_company'])->get()->result();
@@ -872,6 +873,7 @@ class ProjectsController extends BaseController
 
 	function tasks($id = FALSE, $condition = FALSE, $task_id = FALSE)
 	{
+		$description = '';
 		$this->view_data['submenu'] = array(
 			$this->lang->line('application_back') => 'projects',
 			$this->lang->line('application_overview') => 'projects/view/' . $id,
