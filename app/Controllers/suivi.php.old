@@ -1,0 +1,221 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Suivi extends BaseController
+{
+    function __construct()
+	{
+		parent::__construct();
+		$access = FALSE;
+		if($this->client){	
+			if($this->input->cookie('fc2_link') != ""){
+					$link = $this->input->cookie('fc2_link');
+					$link = str_replace("/tickets/", "/ctickets/", $link);
+					redirect($link);
+			}else{
+				redirect('cprojects');
+			}
+			
+		}elseif($this->user){
+			foreach ($this->view_data['menu'] as $key => $value) { 
+				if($value->link == "calendar"){ $access = TRUE;
+
+				}
+			}
+			//if(!$access){redirect('login');}
+		}else{
+			redirect('login');
+		}
+		$this->view_data['submenu'] = array(
+				 		$this->lang->line('application_all') => 'projects/filter/all',
+				 		$this->lang->line('application_open') => 'projects/filter/open',
+				 		$this->lang->line('application_closed') => 'projects/filter/closed'
+				 		);	
+		$this->load->database();
+        $this->load->model('user_model');	
+        $this->load->model('salarie_model');
+        $this->load->helper('suivi_helper');
+        
+        $this->load->model('ref_type_occurences_model','referentiels');
+        $this->_week_day_format = new IntlDateFormatter('en_US.UTF8', IntlDateFormatter::NONE,
+                IntlDateFormatter::NONE, NULL, NULL, "cccccc");
+	}	
+
+
+    public function index($year = 0, $month = 0, $item_id = 0)
+    {
+  
+        $options = array('conditions' => array('statut=?','28'));
+        $conges = Conges::find('all',$options); 
+        $this->view_data['conges']  =  $conges;
+        
+        $items = $this->salarie_model->getcalendersalaries();
+         $usersmms = $this->salarie_model->getmmssalarie();
+         $users2d = $this->salarie_model->getBIM2Dsalarie();
+         $users3d = $this->salarie_model->getBIM3Dsalarie();
+
+         
+         $m_num = 1;
+       
+         $m_data = month_offset($year, $month, 0);
+        
+        $next_month_data = month_offset($year, $month, $m_num );
+        $prev_month_data = month_offset($year, $month, -$m_num);
+
+        $year_prev = $prev_month_data['year'];
+        $month_prev = $prev_month_data['month'];
+
+        $year_next = $next_month_data['year'];
+        $month_next = $next_month_data['month'];
+       
+ 
+     
+        $year = $m_data['year'];
+        $month = $m_data['month'];
+         $header =  $this->_header($year,$month);
+         $name = $header['name'];
+         $data_m = $header['month_data'];
+         $item_id = 1;
+
+        $new_data =array(
+            'users' => $items,
+           'name' => $name,
+            'data_m' =>$data_m,
+            'year' => $year,
+            'month' => $month,
+            'year_prev' => $year_prev,
+            'month_prev' => $month_prev,
+            'year_next' => $year_next,
+            'month_next' => $month_next,
+            'item_id' =>$item_id,
+            'conges' =>$conges,
+            'usersmms' => $usersmms,
+            'users2d' =>$users2d,
+            'users3d' => $users3d
+        );
+        
+        $this->view_data['data']=$new_data;
+        $this->content_view = 'suivi/index';
+      
+    
+    }
+
+
+
+ 
+
+    private function _header($year, $month)
+    {
+        $month_data = $this->get_month_data($year, $month);
+        // return;
+        $data =array(
+            'month_data' =>$month_data,
+            'name' => $month_data['name'],
+        );
+       return  $data;
+    }
+
+
+      // month_offset allows to add or substract month
+      public function get_month_data($year, $month_num)
+      {
+          $month_num = (int)$month_num; //ensure that is not have leading zeros
+          
+          $date_obj = DateTime::createFromFormat('!n', $month_num);
+  
+          $day_num = cal_days_in_month(CAL_GREGORIAN, $month_num, $year);
+  
+          $month = array(
+              'num' => $month_num,
+              'name' => get_month_name($month_num),
+              'year' => $year,
+              'days' => array(),
+          );
+  
+          for ($i = 1; $i <= $day_num; $i++)
+          {
+              $date_obj = date_create_from_format('Y-n-j', $year . '-' . $month_num . '-' . $i);
+              $week_day_num = $date_obj->format('N');
+              $week_day_name = datefmt_format( $this->_week_day_format, mktime(0, 0, 0, $month_num, $i, $year));
+  
+              $now = new DateTime();
+              // Setting the time to 0 will ensure the difference is measured only in days
+              $now->setTime(0, 0, 0);
+              $date_obj->setTime(0, 0, 0);
+  
+              $today = $now->diff($date_obj)->days === 0; // Today
+  
+              $day = array(
+                  'num' => $i,
+                  'week_num' => $week_day_num,
+                  'name' => $week_day_name,
+                  'date_string' => $date_obj->format('Y-m-d'), //format 
+                  'is_today' => $today,
+              );
+  
+              $month['days'][$i] = $day;
+          }
+  
+          return $month;
+      }
+
+   
+
+    //EDIT MONTH FUNCTION
+
+    public function edit($year = 0, $month = 0, $item_id = 0)
+    {
+            
+         $items = $this->salarie_model->getcalendersalaries();
+      
+        $usersmms = $this->salarie_model->getmmssalarie();
+        $users2d = $this->salarie_model->getBIM2Dsalarie();
+        $users3d = $this->salarie_model->getBIM3Dsalarie();
+
+        $m_num = 1;
+       
+        $m_data = month_offset($year, $month, 0);
+       
+       $next_month_data = month_offset($year, $month, $m_num );
+       $prev_month_data = month_offset($year, $month, -$m_num);
+
+       $year_prev = $prev_month_data['year'];
+       $month_prev = $prev_month_data['month'];
+
+       $year_next = $next_month_data['year'];
+       $month_next = $next_month_data['month'];
+      
+
+    
+       $year = $m_data['year'];
+       $month = $m_data['month'];
+        $header =  $this->_header($year,$month);
+        $name = $header['name'];
+        $data_m = $header['month_data'];
+        $item_id = 1;
+
+        $new_data =array(
+            'users' => $items,
+           'name' => $name,
+            'data_m' =>$data_m,
+            'year' => $year,
+            'month' => $month,
+            'year_prev' => $year_prev,
+            'month_prev' => $month_prev,
+            'year_next' => $year_next,
+            'month_next' => $month_next,
+            'item_id' =>$item_id,
+            'usersmms' => $usersmms,
+            'users2d' =>$users2d,
+            'users3d' => $users3d
+        );
+       $this->view_data['data']=$new_data;
+       // $this->content_view = 'suivi/parts/header';
+       $this->content_view = 'suivi/edit';
+    }
+
+  
+
+
+}
+
+
