@@ -15,10 +15,10 @@ use App\Models\ProjectModel;
 use App\Models\SalarieModel;
 use App\Models\RefTypeOccurencesModel;
 use App\Models\SettingModel;
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 use DateTime;
 
-class EstimatesController extends Controller
+class EstimatesController extends BaseController
 {
 
 	private $idTypeRefDevis, $itemModel, $projectModel, $factureModel, $referentielsModel, $refTypeModel,

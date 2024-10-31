@@ -11,11 +11,11 @@ use App\Models\ItemsModel;
 use App\Models\ItemFamilyModel;
 use App\Models\FactureHasItemModel;
 use App\Models\CompanyModel;
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class ExporterController extends Controller
+class ExporterController extends BaseController
 {
 	protected $itemModel;
 	protected $invoiceModel;
