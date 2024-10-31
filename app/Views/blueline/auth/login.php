@@ -1,12 +1,12 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
-<div class="login-page">
+<div class="login-page d-md-flex">
 
   <div class="login-form">
-    <form class="form-signin" method="post" action="<?= site_url('loginpost') ?>" id="login">
-      <div class="logo">
-        <!-- Add logo image here if needed -->
+    <form class="form-signin " method="post" action="<?= site_url('login') ?>" id="login" >
+      <div class="logo mb-5 text-center">
+        <img src="<?= base_url('assets/blueline/images/logo-vision.png') ?>"  alt="Vision logo" />
       </div>
 
       <?php if (isset($send_email)): ?>
@@ -38,28 +38,31 @@
       <?php else: ?>
         <div class="form-group">
           <label for="email"><?= lang('email') ?></label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="<?= lang('enter_your_email') ?>" required />
+          <input type="email" class="form-control" id="email" name="email" placeholder="<?= lang('Enter your email') ?>" required />
         </div>
         <div class="form-group">
           <label for="password"><?= lang('password') ?></label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="<?= lang('enter_your_password') ?>" required />
+          <input type="password" class="form-control" id="password" name="password" placeholder="<?= lang('Enter your password') ?>" required />
         </div>
 
-        <input type="submit" class="btn btn-primary fadeoutOnClick" value="<?= lang('login') ?>" />
-        <div class="forgotpassword">
-          <a href="<?= site_url("forgotpass") ?>"><?= lang('forgot_password') ?></a>
+        <div class="bottom-buttons d-md-flex justify-content-between align-items-center text-center text-lg-start">
+
+          <input type="submit" class="btn btn-primary fadeoutOnClick px-4 py-2" value="<?= lang('login') ?>" />
+          <div class="forgotpassword">
+            <a href="<?= site_url("forgotpass") ?>"><?= lang('Forgot Password') ?></a>
+          </div>
         </div>
 
-        <center>
+        <!-- <center>
           <div class="form-header"><?= lang('secure_connection') ?><br><?= esc($version ?? 'Version not defined') ?></div>
-        </center>
+        </center> -->
         <?php if (isset($expiration)): ?>
           <div id="error"><?= esc($expiration) ?></div>
         <?php endif; ?>
       <?php endif; ?>
     </form>
   </div>
-  <div class="login-bg">
+  <div class="login-bg d-none d-md-block w-100">
     <div class="login-background">
       <img src="https://vision.bimmapping.com/assets/blueline/images/backgrounds/field.jpg" alt="">
     </div>
