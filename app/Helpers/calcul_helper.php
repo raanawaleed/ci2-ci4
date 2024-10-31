@@ -5,7 +5,7 @@ namespace App\Helpers;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Services;
 
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
 
 if (!function_exists('calcul_heure')) {
     function calcul_heure(array $subj): array

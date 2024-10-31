@@ -37,4 +37,8 @@ class EventModel extends Model
   {
     return $this->find($eventId);
   }
+  public function getAllEvents()
+  {
+    return $this->countAllResults();
+  }
 }

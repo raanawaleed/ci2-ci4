@@ -1,4 +1,3 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-require_once('phpexcel/PHPExcel.php');
-
+// require_once('phpexcel/PHPExcel.php');

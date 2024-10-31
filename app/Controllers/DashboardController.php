@@ -39,6 +39,7 @@ class DashboardController extends BaseController
 
 		$this->user = session()->get('user');
 
+
 		if (!$this->user) {
 			return redirect('login');
 		}
@@ -78,7 +79,9 @@ class DashboardController extends BaseController
 		// Load additional data for view
 		$this->loadAdditionalData();
 
-		return view('blueline/dashboard/dashboardv2', $this->view_data);
+		$data = $this->view_data;
+
+		return view('blueline/dashboard/dashboardv2', ['view_data' => $this->view_data]);
 	}
 
 	private function calculatePercentages(): void

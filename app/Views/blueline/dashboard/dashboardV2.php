@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<?= $this->include('layouts/sidebar') ?>
+
 <?php
 
 use App\Models\EventModel;

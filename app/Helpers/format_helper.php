@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\SettingModel;
 
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
 
 if (!function_exists('display_money')) {
     function display_money($value, $currency = false, $decimal = false)
